@@ -1,0 +1,5 @@
+if(EXISTS "/home/ymh/CMU-15-445/build/test/trie_debug_test[1]_tests.cmake")
+  include("/home/ymh/CMU-15-445/build/test/trie_debug_test[1]_tests.cmake")
+else()
+  add_test(trie_debug_test_NOT_BUILT trie_debug_test_NOT_BUILT)
+endif()

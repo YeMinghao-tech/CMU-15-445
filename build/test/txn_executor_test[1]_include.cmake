@@ -1,0 +1,5 @@
+if(EXISTS "/home/ymh/CMU-15-445/build/test/txn_executor_test[1]_tests.cmake")
+  include("/home/ymh/CMU-15-445/build/test/txn_executor_test[1]_tests.cmake")
+else()
+  add_test(txn_executor_test_NOT_BUILT txn_executor_test_NOT_BUILT)
+endif()

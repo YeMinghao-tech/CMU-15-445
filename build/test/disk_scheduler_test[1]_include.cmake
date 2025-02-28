@@ -1,0 +1,5 @@
+if(EXISTS "/home/ymh/CMU-15-445/build/test/disk_scheduler_test[1]_tests.cmake")
+  include("/home/ymh/CMU-15-445/build/test/disk_scheduler_test[1]_tests.cmake")
+else()
+  add_test(disk_scheduler_test_NOT_BUILT disk_scheduler_test_NOT_BUILT)
+endif()

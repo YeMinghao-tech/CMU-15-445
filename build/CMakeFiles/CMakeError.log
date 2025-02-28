@@ -1,0 +1,76 @@
+Determining if the function dwarf_producer_init_c exists failed with the following output:
+Change Dir: /home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_226c2/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_226c2.dir/build.make CMakeFiles/cmTC_226c2.dir/build
+gmake[1]: Entering directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_226c2.dir/CheckFunctionExists.c.o
+/usr/bin/clang-14  -I/usr/include/libdwarf -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c -fPIE -MD -MT CMakeFiles/cmTC_226c2.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_226c2.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_226c2.dir/CheckFunctionExists.c.o -c /usr/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_226c2
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_226c2.dir/link.txt --verbose=1
+/usr/bin/clang-14  -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c CMakeFiles/cmTC_226c2.dir/CheckFunctionExists.c.o -o cmTC_226c2  /usr/lib/x86_64-linux-gnu/libdwarf.so /usr/lib/x86_64-linux-gnu/libelf.so 
+/usr/bin/ld: CMakeFiles/cmTC_226c2.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x17): undefined reference to `dwarf_producer_init_c'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+gmake[1]: *** [CMakeFiles/cmTC_226c2.dir/build.make:102: cmTC_226c2] Error 1
+gmake[1]: Leaving directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_226c2/fast] Error 2
+
+
+
+Determining if the function dwarf_producer_init_c exists failed with the following output:
+Change Dir: /home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_7ba85/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_7ba85.dir/build.make CMakeFiles/cmTC_7ba85.dir/build
+gmake[1]: Entering directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7ba85.dir/CheckFunctionExists.c.o
+/usr/bin/clang-14  -I/usr/include/libdwarf -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c -fPIE -MD -MT CMakeFiles/cmTC_7ba85.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_7ba85.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_7ba85.dir/CheckFunctionExists.c.o -c /usr/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7ba85
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7ba85.dir/link.txt --verbose=1
+/usr/bin/clang-14  -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c CMakeFiles/cmTC_7ba85.dir/CheckFunctionExists.c.o -o cmTC_7ba85  /usr/lib/x86_64-linux-gnu/libdwarf.so /usr/lib/x86_64-linux-gnu/libelf.so 
+/usr/bin/ld: CMakeFiles/cmTC_7ba85.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x17): undefined reference to `dwarf_producer_init_c'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+gmake[1]: *** [CMakeFiles/cmTC_7ba85.dir/build.make:102: cmTC_7ba85] Error 1
+gmake[1]: Leaving directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_7ba85/fast] Error 2
+
+
+
+Determining if the function dwarf_producer_init_c exists failed with the following output:
+Change Dir: /home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_c2a7d/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_c2a7d.dir/build.make CMakeFiles/cmTC_c2a7d.dir/build
+gmake[1]: Entering directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c2a7d.dir/CheckFunctionExists.c.o
+/usr/bin/clang-14  -I/usr/include/libdwarf -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c -fPIE -MD -MT CMakeFiles/cmTC_c2a7d.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_c2a7d.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_c2a7d.dir/CheckFunctionExists.c.o -c /usr/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_c2a7d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c2a7d.dir/link.txt --verbose=1
+/usr/bin/clang-14  -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c CMakeFiles/cmTC_c2a7d.dir/CheckFunctionExists.c.o -o cmTC_c2a7d  /usr/lib/x86_64-linux-gnu/libdwarf.so /usr/lib/x86_64-linux-gnu/libelf.so 
+/usr/bin/ld: CMakeFiles/cmTC_c2a7d.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x17): undefined reference to `dwarf_producer_init_c'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+gmake[1]: *** [CMakeFiles/cmTC_c2a7d.dir/build.make:102: cmTC_c2a7d] Error 1
+gmake[1]: Leaving directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_c2a7d/fast] Error 2
+
+
+
+Determining if the function dwarf_producer_init_c exists failed with the following output:
+Change Dir: /home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_30f04/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_30f04.dir/build.make CMakeFiles/cmTC_30f04.dir/build
+gmake[1]: Entering directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_30f04.dir/CheckFunctionExists.c.o
+/usr/bin/clang-14  -I/usr/include/libdwarf -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c -fPIE -MD -MT CMakeFiles/cmTC_30f04.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_30f04.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_30f04.dir/CheckFunctionExists.c.o -c /usr/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_30f04
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30f04.dir/link.txt --verbose=1
+/usr/bin/clang-14  -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c CMakeFiles/cmTC_30f04.dir/CheckFunctionExists.c.o -o cmTC_30f04  /usr/lib/x86_64-linux-gnu/libdwarf.so /usr/lib/x86_64-linux-gnu/libelf.so 
+/usr/bin/ld: CMakeFiles/cmTC_30f04.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x17): undefined reference to `dwarf_producer_init_c'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+gmake[1]: *** [CMakeFiles/cmTC_30f04.dir/build.make:102: cmTC_30f04] Error 1
+gmake[1]: Leaving directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_30f04/fast] Error 2
+
+
+
