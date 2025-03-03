@@ -24,12 +24,14 @@
 
 namespace bustub {
 
-auto StringUtil::Contains(const std::string &haystack, const std::string &needle) -> bool {
+auto StringUtil::Contains(const std::string &haystack,
+                          const std::string &needle) -> bool {
   return (haystack.find(needle) != std::string::npos);
 }
 
-auto StringUtil::ContainsAfter(const std::string &keyword, const std::string &haystack, const std::string &needle)
-    -> bool {
+auto StringUtil::ContainsAfter(const std::string &keyword,
+                               const std::string &haystack,
+                               const std::string &needle) -> bool {
   auto pos = haystack.find(keyword);
   if (pos == std::string::npos) {
     return false;
@@ -39,16 +41,23 @@ auto StringUtil::ContainsAfter(const std::string &keyword, const std::string &ha
 
 void StringUtil::RTrim(std::string *str) {
   // remove trailing ' ', \f, \n, \r, \t, \v
-  str->erase(std::find_if(str->rbegin(), str->rend(), [](int ch) { return std::isspace(ch) == 0; }).base(), str->end());
+  str->erase(std::find_if(str->rbegin(), str->rend(),
+                          [](int ch) { return std::isspace(ch) == 0; })
+                 .base(),
+             str->end());
 }
 
-auto StringUtil::Indent(int num_indent) -> std::string { return std::string(num_indent, ' '); }  // NOLINT
+auto StringUtil::Indent(int num_indent) -> std::string {
+  return std::string(num_indent, ' ');
+} // NOLINT
 
-auto StringUtil::StartsWith(const std::string &str, const std::string &prefix) -> bool {
+auto StringUtil::StartsWith(const std::string &str, const std::string &prefix)
+    -> bool {
   return std::equal(prefix.begin(), prefix.end(), str.begin());
 }
 
-auto StringUtil::EndsWith(const std::string &str, const std::string &suffix) -> bool {
+auto StringUtil::EndsWith(const std::string &str, const std::string &suffix)
+    -> bool {
   // http://stackoverflow.com/a/2072890
   if (suffix.size() > str.size()) {
     return false;
@@ -56,7 +65,8 @@ auto StringUtil::EndsWith(const std::string &str, const std::string &suffix) -> 
   return std::equal(suffix.rbegin(), suffix.rend(), str.rbegin());
 }
 
-auto StringUtil::Repeat(const std::string &str, const std::size_t n) -> std::string {
+auto StringUtil::Repeat(const std::string &str, const std::size_t n)
+    -> std::string {
   std::ostringstream os;
   if (n == 0 || str.empty()) {
     return (os.str());
@@ -67,7 +77,8 @@ auto StringUtil::Repeat(const std::string &str, const std::size_t n) -> std::str
   return (os.str());
 }
 
-auto StringUtil::Split(const std::string &str, char delimiter) -> std::vector<std::string> {
+auto StringUtil::Split(const std::string &str, char delimiter)
+    -> std::vector<std::string> {
   std::stringstream ss(str);
   std::vector<std::string> lines;
   std::string temp;
@@ -77,10 +88,12 @@ auto StringUtil::Split(const std::string &str, char delimiter) -> std::vector<st
   return (lines);
 }
 
-auto StringUtil::Join(const std::vector<std::string> &input, const std::string &separator) -> std::string {
+auto StringUtil::Join(const std::vector<std::string> &input,
+                      const std::string &separator) -> std::string {
   std::string result;
 
-  // If the input isn't empty, append the first element. We do this so we don't need to introduce an if into the loop.
+  // If the input isn't empty, append the first element. We do this so we don't
+  // need to introduce an if into the loop.
   if (!input.empty()) {
     result += input[0];
   }
@@ -93,7 +106,8 @@ auto StringUtil::Join(const std::vector<std::string> &input, const std::string &
   return result;
 }
 
-auto StringUtil::Prefix(const std::string &str, const std::string &prefix) -> std::string {
+auto StringUtil::Prefix(const std::string &str, const std::string &prefix)
+    -> std::string {
   std::vector<std::string> lines = StringUtil::Split(str, '\n');
 
   if (lines.empty()) {
@@ -142,17 +156,20 @@ auto StringUtil::Bold(const std::string &str) -> std::string {
 
 auto StringUtil::Upper(const std::string &str) -> std::string {
   std::string copy(str);
-  std::transform(copy.begin(), copy.end(), copy.begin(), [](unsigned char c) { return std::toupper(c); });
+  std::transform(copy.begin(), copy.end(), copy.begin(),
+                 [](unsigned char c) { return std::toupper(c); });
   return (copy);
 }
 
 auto StringUtil::Lower(const std::string &str) -> std::string {
   std::string copy(str);
-  std::transform(copy.begin(), copy.end(), copy.begin(), [](unsigned char c) { return std::tolower(c); });
+  std::transform(copy.begin(), copy.end(), copy.begin(),
+                 [](unsigned char c) { return std::tolower(c); });
   return (copy);
 }
 
-// NOLINTNEXTLINE - it wants us to take fmt_str as const&, but we shouldn't do that since we use it in va_args.
+// NOLINTNEXTLINE - it wants us to take fmt_str as const&, but we shouldn't do
+// that since we use it in va_args.
 std::string StringUtil::Format(std::string fmt_str, ...) {
   // http://stackoverflow.com/a/8098080
   // Reserve two times as much as the length of the format string.
@@ -165,9 +182,10 @@ std::string StringUtil::Format(std::string fmt_str, ...) {
   while (true) {
     // Wrap the plain char array into the unique_ptr.
     formatted = std::make_unique<char[]>(n);
-    strcpy(&formatted[0], fmt_str.c_str());  // NOLINT
+    strcpy(&formatted[0], fmt_str.c_str()); // NOLINT
     va_start(ap, fmt_str);
-    final_n = vsnprintf(&formatted[0], static_cast<size_t>(n), fmt_str.c_str(), ap);
+    final_n =
+        vsnprintf(&formatted[0], static_cast<size_t>(n), fmt_str.c_str(), ap);
     va_end(ap);
     if (final_n < 0 || final_n >= n) {
       n += abs(final_n - n + 1);
@@ -178,7 +196,8 @@ std::string StringUtil::Format(std::string fmt_str, ...) {
   return {formatted.get()};
 }
 
-auto StringUtil::Split(const std::string &input, const std::string &split) -> std::vector<std::string> {
+auto StringUtil::Split(const std::string &input, const std::string &split)
+    -> std::vector<std::string> {
   std::vector<std::string> splits;
 
   size_t last = 0;
@@ -201,23 +220,26 @@ auto StringUtil::Split(const std::string &input, const std::string &split) -> st
 }
 
 auto StringUtil::Strip(const std::string &str, char c) -> std::string {
-  // There's a copy here which is wasteful, so don't use this in performance-critical code!
+  // There's a copy here which is wasteful, so don't use this in
+  // performance-critical code!
   std::string tmp = str;
   tmp.erase(std::remove(tmp.begin(), tmp.end(), c), tmp.end());
   return tmp;
 }
 
-auto StringUtil::Replace(std::string source, const std::string &from, const std::string &to) -> std::string {
+auto StringUtil::Replace(std::string source, const std::string &from,
+                         const std::string &to) -> std::string {
   uint64_t start_pos = 0;
   while ((start_pos = source.find(from, start_pos)) != std::string::npos) {
     source.replace(start_pos, from.length(), to);
-    start_pos += to.length();  // In case 'to' contains 'from', like
-                               // replacing 'x' with 'yx'
+    start_pos += to.length(); // In case 'to' contains 'from', like
+                              // replacing 'x' with 'yx'
   }
   return source;
 }
 
-auto StringUtil::IndentAllLines(const std::string &lines, size_t num_indent, bool except_first_line) -> std::string {
+auto StringUtil::IndentAllLines(const std::string &lines, size_t num_indent,
+                                bool except_first_line) -> std::string {
   std::vector<std::string> lines_str;
   auto lines_split = StringUtil::Split(lines, '\n');
   lines_str.reserve(lines_split.size());
@@ -236,4 +258,4 @@ auto StringUtil::IndentAllLines(const std::string &lines, size_t num_indent, boo
   return fmt::format("{}", fmt::join(lines_str, "\n"));
 }
 
-}  // namespace bustub
+} // namespace bustub

@@ -9,7 +9,7 @@ class ReadPageGuard;
 class WritePageGuard;
 
 class BasicPageGuard {
- public:
+public:
   BasicPageGuard() = default;
 
   BasicPageGuard(BufferPoolManager *bpm, Page *page) : bpm_(bpm), page_(page) {}
@@ -66,7 +66,8 @@ class BasicPageGuard {
    * @brief Upgrade a BasicPageGuard to a ReadPageGuard
    *
    * The protected page is not evicted from the buffer pool during the upgrade,
-   * and the basic page guard should be made invalid after calling this function.
+   * and the basic page guard should be made invalid after calling this
+   * function.
    *
    * @return an upgraded ReadPageGuard
    */
@@ -77,7 +78,8 @@ class BasicPageGuard {
    * @brief Upgrade a BasicPageGuard to a WritePageGuard
    *
    * The protected page is not evicted from the buffer pool during the upgrade,
-   * and the basic page guard should be made invalid after calling this function.
+   * and the basic page guard should be made invalid after calling this
+   * function.
    *
    * @return an upgraded WritePageGuard
    */
@@ -87,8 +89,7 @@ class BasicPageGuard {
 
   auto GetData() -> const char * { return page_->GetData(); }
 
-  template <class T>
-  auto As() -> const T * {
+  template <class T> auto As() -> const T * {
     return reinterpret_cast<const T *>(GetData());
   }
 
@@ -97,12 +98,11 @@ class BasicPageGuard {
     return page_->GetData();
   }
 
-  template <class T>
-  auto AsMut() -> T * {
+  template <class T> auto AsMut() -> T * {
     return reinterpret_cast<T *>(GetDataMut());
   }
 
- private:
+private:
   friend class ReadPageGuard;
   friend class WritePageGuard;
 
@@ -112,7 +112,7 @@ class BasicPageGuard {
 };
 
 class ReadPageGuard {
- public:
+public:
   ReadPageGuard() = default;
   ReadPageGuard(BufferPoolManager *bpm, Page *page) : guard_(bpm, page) {}
   ReadPageGuard(const ReadPageGuard &) = delete;
@@ -161,18 +161,15 @@ class ReadPageGuard {
 
   auto GetData() -> const char * { return guard_.GetData(); }
 
-  template <class T>
-  auto As() -> const T * {
-    return guard_.As<T>();
-  }
+  template <class T> auto As() -> const T * { return guard_.As<T>(); }
 
- private:
+private:
   // You may choose to get rid of this and add your own private variables.
   BasicPageGuard guard_;
 };
 
 class WritePageGuard {
- public:
+public:
   WritePageGuard() = default;
   WritePageGuard(BufferPoolManager *bpm, Page *page) : guard_(bpm, page) {}
   WritePageGuard(const WritePageGuard &) = delete;
@@ -221,21 +218,15 @@ class WritePageGuard {
 
   auto GetData() -> const char * { return guard_.GetData(); }
 
-  template <class T>
-  auto As() -> const T * {
-    return guard_.As<T>();
-  }
+  template <class T> auto As() -> const T * { return guard_.As<T>(); }
 
   auto GetDataMut() -> char * { return guard_.GetDataMut(); }
 
-  template <class T>
-  auto AsMut() -> T * {
-    return guard_.AsMut<T>();
-  }
+  template <class T> auto AsMut() -> T * { return guard_.AsMut<T>(); }
 
- private:
+private:
   // You may choose to get rid of this and add your own private variables.
   BasicPageGuard guard_;
 };
 
-}  // namespace bustub
+} // namespace bustub

@@ -2,7 +2,7 @@
 
 #include <exception>
 #include <memory>
-#include <mutex>  // NOLINT
+#include <mutex> // NOLINT
 #include <optional>
 #include <shared_mutex>
 #include <unordered_map>
@@ -25,8 +25,9 @@
 
 namespace bustub {
 
-auto TransactionManager::UpdateUndoLink(RID rid, std::optional<UndoLink> prev_link,
-                                        std::function<bool(std::optional<UndoLink>)> &&check) -> bool {
+auto TransactionManager::UpdateUndoLink(
+    RID rid, std::optional<UndoLink> prev_link,
+    std::function<bool(std::optional<UndoLink>)> &&check) -> bool {
   std::function<bool(std::optional<VersionUndoLink>)> wrapper_func =
       [check](std::optional<VersionUndoLink> link) -> bool {
     if (link.has_value()) {
@@ -34,12 +35,16 @@ auto TransactionManager::UpdateUndoLink(RID rid, std::optional<UndoLink> prev_li
     }
     return check(std::nullopt);
   };
-  return UpdateVersionLink(rid, prev_link.has_value() ? std::make_optional(VersionUndoLink{*prev_link}) : std::nullopt,
+  return UpdateVersionLink(rid,
+                           prev_link.has_value()
+                               ? std::make_optional(VersionUndoLink{*prev_link})
+                               : std::nullopt,
                            check != nullptr ? wrapper_func : nullptr);
 }
 
-auto TransactionManager::UpdateVersionLink(RID rid, std::optional<VersionUndoLink> prev_version,
-                                           std::function<bool(std::optional<VersionUndoLink>)> &&check) -> bool {
+auto TransactionManager::UpdateVersionLink(
+    RID rid, std::optional<VersionUndoLink> prev_version,
+    std::function<bool(std::optional<VersionUndoLink>)> &&check) -> bool {
   std::unique_lock<std::shared_mutex> lck(version_info_mutex_);
   std::shared_ptr<PageVersionInfo> pg_ver_info = nullptr;
   auto iter = version_info_.find(rid.GetPageId());
@@ -69,7 +74,8 @@ auto TransactionManager::UpdateVersionLink(RID rid, std::optional<VersionUndoLin
   return true;
 }
 
-auto TransactionManager::GetVersionLink(RID rid) -> std::optional<VersionUndoLink> {
+auto TransactionManager::GetVersionLink(RID rid)
+    -> std::optional<VersionUndoLink> {
   std::shared_lock<std::shared_mutex> lck(version_info_mutex_);
   auto iter = version_info_.find(rid.GetPageId());
   if (iter == version_info_.end()) {
@@ -93,7 +99,8 @@ auto TransactionManager::GetUndoLink(RID rid) -> std::optional<UndoLink> {
   return std::nullopt;
 }
 
-auto TransactionManager::GetUndoLogOptional(UndoLink link) -> std::optional<UndoLog> {
+auto TransactionManager::GetUndoLogOptional(UndoLink link)
+    -> std::optional<UndoLog> {
   std::shared_lock<std::shared_mutex> lck(txn_map_mutex_);
   auto iter = txn_map_.find(link.prev_txn_);
   if (iter == txn_map_.end()) {
@@ -122,4 +129,4 @@ void Transaction::SetTainted() {
   std::terminate();
 }
 
-}  // namespace bustub
+} // namespace bustub

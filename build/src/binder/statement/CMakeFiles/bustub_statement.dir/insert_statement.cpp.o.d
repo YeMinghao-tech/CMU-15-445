@@ -252,9 +252,9 @@ src/binder/statement/CMakeFiles/bustub_statement.dir/insert_statement.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/ctime \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/parse_numbers.h \
   /home/ymh/CMU-15-445/src/include/binder/table_ref/bound_base_table_ref.h \
+  /home/ymh/CMU-15-445/src/include/catalog/schema.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/optional \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/enable_special_members.h \
-  /home/ymh/CMU-15-445/src/include/catalog/schema.h \
   /home/ymh/CMU-15-445/src/include/catalog/column.h \
   /home/ymh/CMU-15-445/src/include/concurrency/transaction.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bitset \

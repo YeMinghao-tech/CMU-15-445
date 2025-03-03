@@ -14,7 +14,8 @@
 
 namespace bustub {
 
-/// A special type that will block the move constructor and move assignment operator. Used in TrieStore tests.
+/// A special type that will block the move constructor and move assignment
+/// operator. Used in TrieStore tests.
 class MoveBlocked {
  public:
   explicit MoveBlocked(std::future<int> wait) : wait_(std::move(wait)) {}
@@ -51,28 +52,31 @@ class TrieNode {
 
   virtual ~TrieNode() = default;
 
-  // Clone returns a copy of this TrieNode. If the TrieNode has a value, the value is copied. The return
-  // type of this function is a unique_ptr to a TrieNode.
+  // Clone returns a copy of this TrieNode. If the TrieNode has a value, the
+  // value is copied. The return type of this function is a unique_ptr to a
+  // TrieNode.
   //
-  // You cannot use the copy constructor to clone the node because it doesn't know whether a `TrieNode`
-  // contains a value or not.
+  // You cannot use the copy constructor to clone the node because it doesn't
+  // know whether a `TrieNode` contains a value or not.
   //
-  // Note: if you want to convert `unique_ptr` into `shared_ptr`, you can use `std::shared_ptr<T>(std::move(ptr))`.
+  // Note: if you want to convert `unique_ptr` into `shared_ptr`, you can use
+  // `std::shared_ptr<T>(std::move(ptr))`.
   virtual auto Clone() const -> std::unique_ptr<TrieNode> { return std::make_unique<TrieNode>(children_); }
 
-  // A map of children, where the key is the next character in the key, and the value is the next TrieNode.
-  // You MUST store the children information in this structure. You are NOT allowed to remove the `const` from
-  // the structure.
+  // A map of children, where the key is the next character in the key, and the
+  // value is the next TrieNode. You MUST store the children information in this
+  // structure. You are NOT allowed to remove the `const` from the structure.
   std::map<char, std::shared_ptr<const TrieNode>> children_;
 
   // Indicates if the node is the terminal node.
   bool is_value_node_{false};
 
-  // You can add additional fields and methods here except storing children. But in general, you don't need to add extra
-  // fields to complete this project.
+  // You can add additional fields and methods here except storing children. But
+  // in general, you don't need to add extra fields to complete this project.
 };
 
-// A TrieNodeWithValue is a TrieNode that also has a value of type T associated with it.
+// A TrieNodeWithValue is a TrieNode that also has a value of type T associated
+// with it.
 template <class T>
 class TrieNodeWithValue : public TrieNode {
  public:
@@ -87,7 +91,8 @@ class TrieNodeWithValue : public TrieNode {
 
   // Override the Clone method to also clone the value.
   //
-  // Note: if you want to convert `unique_ptr` into `shared_ptr`, you can use `std::shared_ptr<T>(std::move(ptr))`.
+  // Note: if you want to convert `unique_ptr` into `shared_ptr`, you can use
+  // `std::shared_ptr<T>(std::move(ptr))`.
   auto Clone() const -> std::unique_ptr<TrieNode> override {
     return std::make_unique<TrieNodeWithValue<T>>(children_, value_);
   }
@@ -96,11 +101,13 @@ class TrieNodeWithValue : public TrieNode {
   std::shared_ptr<T> value_;
 };
 
-// A Trie is a data structure that maps strings to values of type T. All operations on a Trie should not
-// modify the trie itself. It should reuse the existing nodes as much as possible, and create new nodes to
-// represent the new trie.
+// A Trie is a data structure that maps strings to values of type T. All
+// operations on a Trie should not modify the trie itself. It should reuse the
+// existing nodes as much as possible, and create new nodes to represent the new
+// trie.
 //
-// You are NOT allowed to remove any `const` in this project, or use `mutable` to bypass the const checks.
+// You are NOT allowed to remove any `const` in this project, or use `mutable`
+// to bypass the const checks.
 class Trie {
  private:
   // The root of the trie.
@@ -120,13 +127,13 @@ class Trie {
   template <class T>
   auto Get(std::string_view key) const -> const T *;
 
-  // Put a new key-value pair into the trie. If the key already exists, overwrite the value.
-  // Returns the new trie.
+  // Put a new key-value pair into the trie. If the key already exists,
+  // overwrite the value. Returns the new trie.
   template <class T>
   auto Put(std::string_view key, T value) const -> Trie;
 
-  // Remove the key from the trie. If the key does not exist, return the original trie.
-  // Otherwise, returns the new trie.
+  // Remove the key from the trie. If the key does not exist, return the
+  // original trie. Otherwise, returns the new trie.
   auto Remove(std::string_view key) const -> Trie;
 
   // Get the root of the trie, should only be used in test cases.

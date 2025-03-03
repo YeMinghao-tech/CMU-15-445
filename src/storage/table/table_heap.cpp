@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 
 #include <cassert>
-#include <mutex>  // NOLINT
+#include <mutex> // NOLINT
 #include <utility>
 
 #include "common/config.h"
@@ -32,13 +32,15 @@ TableHeap::TableHeap(BufferPoolManager *bpm) : bpm_(bpm) {
   last_page_id_ = first_page_id_;
   auto first_page = guard.AsMut<TablePage>();
   BUSTUB_ASSERT(first_page != nullptr,
-                "Couldn't create a page for the table heap. Have you completed the buffer pool manager project?");
+                "Couldn't create a page for the table heap. Have you completed "
+                "the buffer pool manager project?");
   first_page->Init();
 }
 
 TableHeap::TableHeap(bool create_table_heap) : bpm_(nullptr) {}
 
-auto TableHeap::InsertTuple(const TupleMeta &meta, const Tuple &tuple, LockManager *lock_mgr, Transaction *txn,
+auto TableHeap::InsertTuple(const TupleMeta &meta, const Tuple &tuple,
+                            LockManager *lock_mgr, Transaction *txn,
                             table_oid_t oid) -> std::optional<RID> {
   std::unique_lock<std::mutex> guard(latch_);
   auto page_guard = bpm_->FetchPageWrite(last_page_id_);
@@ -48,8 +50,10 @@ auto TableHeap::InsertTuple(const TupleMeta &meta, const Tuple &tuple, LockManag
       break;
     }
 
-    // if there's no tuple in the page, and we can't insert the tuple, then this tuple is too large.
-    BUSTUB_ENSURE(page->GetNumTuples() != 0, "tuple is too large, cannot insert");
+    // if there's no tuple in the page, and we can't insert the tuple, then this
+    // tuple is too large.
+    BUSTUB_ENSURE(page->GetNumTuples() != 0,
+                  "tuple is too large, cannot insert");
 
     page_id_t next_page_id = INVALID_PAGE_ID;
     auto npg = bpm_->NewPage(&next_page_id);
@@ -62,7 +66,8 @@ auto TableHeap::InsertTuple(const TupleMeta &meta, const Tuple &tuple, LockManag
 
     page_guard.Drop();
 
-    // acquire latch here as TSAN complains. Given we only have one insertion thread, this is fine.
+    // acquire latch here as TSAN complains. Given we only have one insertion
+    // thread, this is fine.
     npg->WLatch();
     auto next_page_guard = WritePageGuard{bpm_, npg};
 
@@ -79,7 +84,8 @@ auto TableHeap::InsertTuple(const TupleMeta &meta, const Tuple &tuple, LockManag
 
 #ifndef DISABLE_LOCK_MANAGER
   if (lock_mgr != nullptr) {
-    BUSTUB_ENSURE(lock_mgr->LockRow(txn, LockManager::LockMode::EXCLUSIVE, oid, RID{last_page_id, slot_id}),
+    BUSTUB_ENSURE(lock_mgr->LockRow(txn, LockManager::LockMode::EXCLUSIVE, oid,
+                                    RID{last_page_id, slot_id}),
                   "failed to lock when inserting new tuple");
   }
 #endif
@@ -121,11 +127,14 @@ auto TableHeap::MakeIterator() -> TableIterator {
   return {this, {first_page_id_, 0}, {last_page_id, num_tuples}};
 }
 
-auto TableHeap::MakeEagerIterator() -> TableIterator { return {this, {first_page_id_, 0}, {INVALID_PAGE_ID, 0}}; }
+auto TableHeap::MakeEagerIterator() -> TableIterator {
+  return {this, {first_page_id_, 0}, {INVALID_PAGE_ID, 0}};
+}
 
-auto TableHeap::UpdateTupleInPlace(const TupleMeta &meta, const Tuple &tuple, RID rid,
-                                   std::function<bool(const TupleMeta &meta, const Tuple &table, RID rid)> &&check)
-    -> bool {
+auto TableHeap::UpdateTupleInPlace(
+    const TupleMeta &meta, const Tuple &tuple, RID rid,
+    std::function<bool(const TupleMeta &meta, const Tuple &table, RID rid)>
+        &&check) -> bool {
   auto page_guard = bpm_->FetchPageWrite(rid.GetPageId());
   auto page = page_guard.AsMut<TablePage>();
   auto [old_meta, old_tup] = page->GetTuple(rid);
@@ -136,23 +145,30 @@ auto TableHeap::UpdateTupleInPlace(const TupleMeta &meta, const Tuple &tuple, RI
   return false;
 }
 
-auto TableHeap::AcquireTablePageReadLock(RID rid) -> ReadPageGuard { return bpm_->FetchPageRead(rid.GetPageId()); }
+auto TableHeap::AcquireTablePageReadLock(RID rid) -> ReadPageGuard {
+  return bpm_->FetchPageRead(rid.GetPageId());
+}
 
-auto TableHeap::AcquireTablePageWriteLock(RID rid) -> WritePageGuard { return bpm_->FetchPageWrite(rid.GetPageId()); }
+auto TableHeap::AcquireTablePageWriteLock(RID rid) -> WritePageGuard {
+  return bpm_->FetchPageWrite(rid.GetPageId());
+}
 
-void TableHeap::UpdateTupleInPlaceWithLockAcquired(const TupleMeta &meta, const Tuple &tuple, RID rid,
+void TableHeap::UpdateTupleInPlaceWithLockAcquired(const TupleMeta &meta,
+                                                   const Tuple &tuple, RID rid,
                                                    TablePage *page) {
   page->UpdateTupleInPlaceUnsafe(meta, tuple, rid);
 }
 
-auto TableHeap::GetTupleWithLockAcquired(RID rid, const TablePage *page) -> std::pair<TupleMeta, Tuple> {
+auto TableHeap::GetTupleWithLockAcquired(RID rid, const TablePage *page)
+    -> std::pair<TupleMeta, Tuple> {
   auto [meta, tuple] = page->GetTuple(rid);
   tuple.rid_ = rid;
   return std::make_pair(meta, std::move(tuple));
 }
 
-auto TableHeap::GetTupleMetaWithLockAcquired(RID rid, const TablePage *page) -> TupleMeta {
+auto TableHeap::GetTupleMetaWithLockAcquired(RID rid, const TablePage *page)
+    -> TupleMeta {
   return page->GetTupleMeta(rid);
 }
 
-}  // namespace bustub
+} // namespace bustub

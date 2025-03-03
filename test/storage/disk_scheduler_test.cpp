@@ -11,13 +11,13 @@
 //===----------------------------------------------------------------------===//
 
 #include <cstring>
-#include <future>  // NOLINT
+#include <future> // NOLINT
 #include <memory>
 
 #include "common/exception.h"
-#include "gtest/gtest.h"
 #include "storage/disk/disk_manager_memory.h"
 #include "storage/disk/disk_scheduler.h"
+#include "gtest/gtest.h"
 
 namespace bustub {
 
@@ -38,15 +38,18 @@ TEST(DiskSchedulerTest, DISABLED_ScheduleWriteReadPageTest) {
   auto promise2 = disk_scheduler->CreatePromise();
   auto future2 = promise2.get_future();
 
-  disk_scheduler->Schedule({/*is_write=*/true, data, /*page_id=*/0, std::move(promise1)});
-  disk_scheduler->Schedule({/*is_write=*/false, buf, /*page_id=*/0, std::move(promise2)});
+  disk_scheduler->Schedule(
+      {/*is_write=*/true, data, /*page_id=*/0, std::move(promise1)});
+  disk_scheduler->Schedule(
+      {/*is_write=*/false, buf, /*page_id=*/0, std::move(promise2)});
 
   ASSERT_TRUE(future1.get());
   ASSERT_TRUE(future2.get());
   ASSERT_EQ(std::memcmp(buf, data, sizeof(buf)), 0);
 
-  disk_scheduler = nullptr;  // Call the DiskScheduler destructor to finish all scheduled jobs.
+  disk_scheduler = nullptr; // Call the DiskScheduler destructor to finish all
+                            // scheduled jobs.
   dm->ShutDown();
 }
 
-}  // namespace bustub
+} // namespace bustub

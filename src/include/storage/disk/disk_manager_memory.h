@@ -10,16 +10,16 @@
 //
 //===----------------------------------------------------------------------===//
 #include <array>
-#include <chrono>  // NOLINT
+#include <chrono> // NOLINT
 #include <cstring>
 #include <fstream>
-#include <future>  // NOLINT
+#include <future> // NOLINT
 #include <memory>
-#include <mutex>  // NOLINT
+#include <mutex> // NOLINT
 #include <optional>
 #include <shared_mutex>
 #include <string>
-#include <thread>  // NOLINT
+#include <thread> // NOLINT
 #include <utility>
 #include <vector>
 
@@ -32,11 +32,11 @@
 namespace bustub {
 
 /**
- * DiskManagerMemory replicates the utility of DiskManager on memory. It is primarily used for
- * data structure performance testing.
+ * DiskManagerMemory replicates the utility of DiskManager on memory. It is
+ * primarily used for data structure performance testing.
  */
 class DiskManagerMemory : public DiskManager {
- public:
+public:
   explicit DiskManagerMemory(size_t pages);
 
   ~DiskManagerMemory() override { delete[] memory_; }
@@ -55,17 +55,19 @@ class DiskManagerMemory : public DiskManager {
    */
   void ReadPage(page_id_t page_id, char *page_data) override;
 
- private:
+private:
   char *memory_;
 };
 
 /**
- * DiskManagerMemory replicates the utility of DiskManager on memory. It is primarily used for
- * data structure performance testing.
+ * DiskManagerMemory replicates the utility of DiskManager on memory. It is
+ * primarily used for data structure performance testing.
  */
 class DiskManagerUnlimitedMemory : public DiskManager {
- public:
-  DiskManagerUnlimitedMemory() { std::fill(recent_access_.begin(), recent_access_.end(), -1); }
+public:
+  DiskManagerUnlimitedMemory() {
+    std::fill(recent_access_.begin(), recent_access_.end(), -1);
+  }
 
   /**
    * Write a page to the database file.
@@ -126,16 +128,17 @@ class DiskManagerUnlimitedMemory : public DiskManager {
   }
 
   void ProcessLatency(page_id_t page_id) {
-    uint64_t sleep_micro_sec = 1000;  // for random access, 1ms latency
+    uint64_t sleep_micro_sec = 1000; // for random access, 1ms latency
     if (latency_simulator_enabled_) {
       std::unique_lock<std::mutex> lck(latency_processor_mutex_);
       for (auto &recent_page_id : recent_access_) {
         if ((recent_page_id & (~0x3)) == (page_id & (~0x3))) {
-          sleep_micro_sec = 100;  // for access in the same "block", 0.1ms latency
+          sleep_micro_sec =
+              100; // for access in the same "block", 0.1ms latency
           break;
         }
         if (page_id >= recent_page_id && page_id <= recent_page_id + 3) {
-          sleep_micro_sec = 100;  // for sequential access, 0.1ms latency
+          sleep_micro_sec = 100; // for sequential access, 0.1ms latency
           break;
         }
       }
@@ -152,7 +155,9 @@ class DiskManagerUnlimitedMemory : public DiskManager {
     }
   }
 
-  void EnableLatencySimulator(bool enabled) { latency_simulator_enabled_ = enabled; }
+  void EnableLatencySimulator(bool enabled) {
+    latency_simulator_enabled_ = enabled;
+  }
 
   auto GetLastReadThreadAndClear() -> std::optional<std::thread::id> {
     std::unique_lock<std::mutex> lck(mutex_);
@@ -161,7 +166,7 @@ class DiskManagerUnlimitedMemory : public DiskManager {
     return t;
   }
 
- private:
+private:
   bool latency_simulator_enabled_{false};
 
   std::mutex latency_processor_mutex_;
@@ -176,4 +181,4 @@ class DiskManagerUnlimitedMemory : public DiskManager {
   std::vector<std::shared_ptr<ProtectedPage>> data_;
 };
 
-}  // namespace bustub
+} // namespace bustub

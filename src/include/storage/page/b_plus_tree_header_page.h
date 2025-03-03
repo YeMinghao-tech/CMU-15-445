@@ -9,7 +9,7 @@ namespace bustub {
  * preventing potential race condition under concurrent environment.
  */
 class BPlusTreeHeaderPage {
- public:
+public:
   // Delete all constructor / destructor to ensure memory safety
   BPlusTreeHeaderPage() = delete;
   BPlusTreeHeaderPage(const BPlusTreeHeaderPage &other) = delete;
@@ -17,4 +17,4 @@ class BPlusTreeHeaderPage {
   page_id_t root_page_id_;
 };
 
-}  // namespace bustub
+} // namespace bustub

@@ -77,7 +77,8 @@ class StringExpression : public AbstractExpression {
     return ValueFactory::GetVarcharValue(Compute(str));
   }
 
-  /** @return the string representation of the expression node and its children */
+  /** @return the string representation of the expression node and its children
+   */
   auto ToString() const -> std::string override { return fmt::format("{}({})", expr_type_, *GetChildAt(0)); }
 
   BUSTUB_EXPR_CLONE_WITH_CHILDREN(StringExpression);

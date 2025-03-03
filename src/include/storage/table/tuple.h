@@ -37,7 +37,9 @@ struct TupleMeta {
     return a.ts_ == b.ts_ && a.is_deleted_ == b.is_deleted_;
   }
 
-  friend auto operator!=(const TupleMeta &a, const TupleMeta &b) { return !(a == b); }
+  friend auto operator!=(const TupleMeta &a, const TupleMeta &b) {
+    return !(a == b);
+  }
 };
 
 static_assert(sizeof(TupleMeta) == TUPLE_META_SIZE);
@@ -53,7 +55,7 @@ class Tuple {
   friend class TableHeap;
   friend class TableIterator;
 
- public:
+public:
   // Default constructor (to create a dummy tuple)
   Tuple() = default;
 
@@ -99,7 +101,8 @@ class Tuple {
   auto GetValue(const Schema *schema, uint32_t column_idx) const -> Value;
 
   // Generates a key tuple given schemas and attributes
-  auto KeyFromTuple(const Schema &schema, const Schema &key_schema, const std::vector<uint32_t> &key_attrs) -> Tuple;
+  auto KeyFromTuple(const Schema &schema, const Schema &key_schema,
+                    const std::vector<uint32_t> &key_attrs) -> Tuple;
 
   // Is the column value null ?
   inline auto IsNull(const Schema *schema, uint32_t column_idx) const -> bool {
@@ -109,14 +112,17 @@ class Tuple {
 
   auto ToString(const Schema *schema) const -> std::string;
 
-  friend inline auto IsTupleContentEqual(const Tuple &a, const Tuple &b) { return a.data_ == b.data_; }
+  friend inline auto IsTupleContentEqual(const Tuple &a, const Tuple &b) {
+    return a.data_ == b.data_;
+  }
 
- private:
+private:
   // Get the starting storage address of specific column
-  auto GetDataPtr(const Schema *schema, uint32_t column_idx) const -> const char *;
+  auto GetDataPtr(const Schema *schema, uint32_t column_idx) const -> const
+      char *;
 
-  RID rid_{};  // if pointing to the table heap, the rid is valid
+  RID rid_{}; // if pointing to the table heap, the rid is valid
   std::vector<char> data_;
 };
 
-}  // namespace bustub
+} // namespace bustub

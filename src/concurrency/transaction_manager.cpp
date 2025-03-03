@@ -13,7 +13,7 @@
 #include "concurrency/transaction_manager.h"
 
 #include <memory>
-#include <mutex>  // NOLINT
+#include <mutex> // NOLINT
 #include <optional>
 #include <shared_mutex>
 #include <unordered_map>
@@ -35,7 +35,8 @@
 
 namespace bustub {
 
-auto TransactionManager::Begin(IsolationLevel isolation_level) -> Transaction * {
+auto TransactionManager::Begin(IsolationLevel isolation_level)
+    -> Transaction * {
   std::unique_lock<std::shared_mutex> l(txn_map_mutex_);
   auto txn_id = next_txn_id_++;
   auto txn = std::make_unique<Transaction>(txn_id, isolation_level);
@@ -71,7 +72,8 @@ auto TransactionManager::Commit(Transaction *txn) -> bool {
 
   std::unique_lock<std::shared_mutex> lck(txn_map_mutex_);
 
-  // TODO(fall2023): set commit timestamp + update last committed timestamp here.
+  // TODO(fall2023): set commit timestamp + update last committed timestamp
+  // here.
 
   txn->state_ = TransactionState::COMMITTED;
   running_txns_.UpdateCommitTs(txn->commit_ts_);
@@ -81,7 +83,8 @@ auto TransactionManager::Commit(Transaction *txn) -> bool {
 }
 
 void TransactionManager::Abort(Transaction *txn) {
-  if (txn->state_ != TransactionState::RUNNING && txn->state_ != TransactionState::TAINTED) {
+  if (txn->state_ != TransactionState::RUNNING &&
+      txn->state_ != TransactionState::TAINTED) {
     throw Exception("txn not in running / tainted state");
   }
 
@@ -92,6 +95,8 @@ void TransactionManager::Abort(Transaction *txn) {
   running_txns_.RemoveTxn(txn->read_ts_);
 }
 
-void TransactionManager::GarbageCollection() { UNIMPLEMENTED("not implemented"); }
+void TransactionManager::GarbageCollection() {
+  UNIMPLEMENTED("not implemented");
+}
 
-}  // namespace bustub
+} // namespace bustub

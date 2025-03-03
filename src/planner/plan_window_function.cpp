@@ -26,44 +26,55 @@
 
 namespace bustub {
 
-// TODO(chi): clang-tidy on macOS will suggest changing it to const reference. Looks like a bug.
+// TODO(chi): clang-tidy on macOS will suggest changing it to const reference.
+// Looks like a bug.
 
 void CheckOrderByCompatible(
-    const std::vector<std::vector<std::pair<OrderByType, AbstractExpressionRef>>> &order_by_exprs) {
+    const std::vector<
+        std::vector<std::pair<OrderByType, AbstractExpressionRef>>>
+        &order_by_exprs) {
   if (order_by_exprs.empty()) {
     // either or window functions not having order by clause
     return;
   }
   // or all order by clause are the same
-  std::vector<std::pair<OrderByType, AbstractExpressionRef>> first_order_by = order_by_exprs[0];
+  std::vector<std::pair<OrderByType, AbstractExpressionRef>> first_order_by =
+      order_by_exprs[0];
   for (auto &order_by : order_by_exprs) {
     if (order_by.size() != first_order_by.size()) {
       throw Exception("order by clause of window functions are not compatible");
     }
     for (uint32_t i = 0; i < order_by.size(); i++) {
       if (order_by[i].first != first_order_by[i].first) {
-        throw Exception("order by clause of window functions are not compatible");
+        throw Exception(
+            "order by clause of window functions are not compatible");
       }
-      if (order_by[i].second->ToString() != first_order_by[i].second->ToString()) {
-        throw Exception("order by clause of window functions are not compatible");
+      if (order_by[i].second->ToString() !=
+          first_order_by[i].second->ToString()) {
+        throw Exception(
+            "order by clause of window functions are not compatible");
       }
     }
   }
 }
 
 /* NOLINTNEXTLINE */
-auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNodeRef child) -> AbstractPlanNodeRef {
-  /* For window function we don't do two passes rewrites like planning normal aggregations.
-   *  Because standard sql does not allow using window function results in where clause, and
-   *  our implementation does not support having on window function. We assume window functions
-   *  only appear in select list, and we can plan them in one pass.
+auto Planner::PlanSelectWindow(const SelectStatement &statement,
+                               AbstractPlanNodeRef child)
+    -> AbstractPlanNodeRef {
+  /* For window function we don't do two passes rewrites like planning normal
+   * aggregations. Because standard sql does not allow using window function
+   * results in where clause, and our implementation does not support having on
+   * window function. We assume window functions only appear in select list, and
+   * we can plan them in one pass.
    */
   std::vector<AbstractExpressionRef> columns;
   std::vector<std::string> column_names;
   std::vector<uint32_t> window_func_indexes;
   std::vector<WindowFunctionType> window_func_types;
   std::vector<std::vector<AbstractExpressionRef>> partition_by_exprs;
-  std::vector<std::vector<std::pair<OrderByType, AbstractExpressionRef>>> order_by_exprs;
+  std::vector<std::vector<std::pair<OrderByType, AbstractExpressionRef>>>
+      order_by_exprs;
   std::vector<AbstractExpressionRef> arg_exprs;
 
   for (uint32_t i = 0; i < statement.select_list_.size(); i++) {
@@ -82,7 +93,8 @@ auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNod
     // parse window function
     window_func_indexes.push_back(i);
     // we assign a -1 here as a placeholder
-    columns.emplace_back(std::make_shared<ColumnValueExpression>(0, -1, TypeId::INTEGER));
+    columns.emplace_back(
+        std::make_shared<ColumnValueExpression>(0, -1, TypeId::INTEGER));
 
     const BoundExpression *window_item = nullptr;
     if (item->type_ == ExpressionType::ALIAS) {
@@ -90,7 +102,8 @@ auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNod
       column_names.emplace_back(alias_expr.alias_);
       window_item = &(*alias_expr.child_);
     } else {
-      BUSTUB_ASSERT(item->type_ == ExpressionType::WINDOW, "Invalid expression type has window function");
+      BUSTUB_ASSERT(item->type_ == ExpressionType::WINDOW,
+                    "Invalid expression type has window function");
       column_names.emplace_back(fmt::format("__unnamed#{}", universal_id_++));
       window_item = &(*item);
     }
@@ -98,7 +111,8 @@ auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNod
     if (window_call.start_ != WindowBoundary::UNBOUNDED_PRECEDING ||
         (window_call.end_ != WindowBoundary::CURRENT_ROW_ROWS &&
          window_call.end_ != WindowBoundary::CURRENT_ROW_RANGE)) {
-      throw Exception("Bustub currently only support window function with default window frame settings");
+      throw Exception("Bustub currently only support window function with "
+                      "default window frame settings");
     }
     std::vector<AbstractExpressionRef> partition_by;
     for (auto &item : window_call.partition_by_) {
@@ -125,14 +139,17 @@ auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNod
       auto [_, ret] = PlanExpression(*arg, {child});
       raw_args.emplace_back(std::move(ret));
     }
-    auto [window_func_type, clean_args] = GetWindowAggCallFromFactory(window_call.func_name_, std::move(raw_args));
+    auto [window_func_type, clean_args] = GetWindowAggCallFromFactory(
+        window_call.func_name_, std::move(raw_args));
     window_func_types.emplace_back(window_func_type);
     if (clean_args.size() > 1) {
-      throw bustub::NotImplementedException("only agg call of zero/one arg is supported");
+      throw bustub::NotImplementedException(
+          "only agg call of zero/one arg is supported");
     }
     if (clean_args.empty()) {
       // Rewrite count(*)/row_number into count(1)
-      clean_arg = std::make_shared<ConstantValueExpression>(ValueFactory::GetIntegerValue(1));
+      clean_arg = std::make_shared<ConstantValueExpression>(
+          ValueFactory::GetIntegerValue(1));
     } else {
       clean_arg = std::move(clean_args[0]);
     }
@@ -141,15 +158,18 @@ auto Planner::PlanSelectWindow(const SelectStatement &statement, AbstractPlanNod
 
   CheckOrderByCompatible(order_by_exprs);
 
-  // we don't need window_agg_indexes here because we already use placeholders to infer the window agg column type is
-  // Integer
-  auto window_output_schema = WindowFunctionPlanNode::InferWindowSchema(columns);
+  // we don't need window_agg_indexes here because we already use placeholders
+  // to infer the window agg column type is Integer
+  auto window_output_schema =
+      WindowFunctionPlanNode::InferWindowSchema(columns);
 
   auto plan = std::make_shared<WindowFunctionPlanNode>(
-      std::make_shared<Schema>(ProjectionPlanNode::RenameSchema(window_output_schema, column_names)), child,
-      window_func_indexes, columns, partition_by_exprs, order_by_exprs, arg_exprs, window_func_types);
+      std::make_shared<Schema>(
+          ProjectionPlanNode::RenameSchema(window_output_schema, column_names)),
+      child, window_func_indexes, columns, partition_by_exprs, order_by_exprs,
+      arg_exprs, window_func_types);
 
   return plan;
 }
 
-}  // namespace bustub
+} // namespace bustub

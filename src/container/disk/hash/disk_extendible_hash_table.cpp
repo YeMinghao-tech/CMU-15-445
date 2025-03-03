@@ -31,13 +31,11 @@
 namespace bustub {
 
 template <typename K, typename V, typename KC>
-DiskExtendibleHashTable<K, V, KC>::DiskExtendibleHashTable(const std::string &name, BufferPoolManager *bpm,
-                                                           const KC &cmp, const HashFunction<K> &hash_fn,
-                                                           uint32_t header_max_depth, uint32_t directory_max_depth,
-                                                           uint32_t bucket_max_size)
-    : bpm_(bpm),
-      cmp_(cmp),
-      hash_fn_(std::move(hash_fn)),
+DiskExtendibleHashTable<K, V, KC>::DiskExtendibleHashTable(
+    const std::string &name, BufferPoolManager *bpm, const KC &cmp,
+    const HashFunction<K> &hash_fn, uint32_t header_max_depth,
+    uint32_t directory_max_depth, uint32_t bucket_max_size)
+    : bpm_(bpm), cmp_(cmp), hash_fn_(std::move(hash_fn)),
       header_max_depth_(header_max_depth),
       directory_max_depth_(directory_max_depth),
       bucket_max_size_(bucket_max_size) {
@@ -48,7 +46,9 @@ DiskExtendibleHashTable<K, V, KC>::DiskExtendibleHashTable(const std::string &na
  * SEARCH
  *****************************************************************************/
 template <typename K, typename V, typename KC>
-auto DiskExtendibleHashTable<K, V, KC>::GetValue(const K &key, std::vector<V> *result, Transaction *transaction) const
+auto DiskExtendibleHashTable<K, V, KC>::GetValue(const K &key,
+                                                 std::vector<V> *result,
+                                                 Transaction *transaction) const
     -> bool {
   return false;
 }
@@ -58,26 +58,31 @@ auto DiskExtendibleHashTable<K, V, KC>::GetValue(const K &key, std::vector<V> *r
  *****************************************************************************/
 
 template <typename K, typename V, typename KC>
-auto DiskExtendibleHashTable<K, V, KC>::Insert(const K &key, const V &value, Transaction *transaction) -> bool {
+auto DiskExtendibleHashTable<K, V, KC>::Insert(const K &key, const V &value,
+                                               Transaction *transaction)
+    -> bool {
   return false;
 }
 
 template <typename K, typename V, typename KC>
-auto DiskExtendibleHashTable<K, V, KC>::InsertToNewDirectory(ExtendibleHTableHeaderPage *header, uint32_t directory_idx,
-                                                             uint32_t hash, const K &key, const V &value) -> bool {
+auto DiskExtendibleHashTable<K, V, KC>::InsertToNewDirectory(
+    ExtendibleHTableHeaderPage *header, uint32_t directory_idx, uint32_t hash,
+    const K &key, const V &value) -> bool {
   return false;
 }
 
 template <typename K, typename V, typename KC>
-auto DiskExtendibleHashTable<K, V, KC>::InsertToNewBucket(ExtendibleHTableDirectoryPage *directory, uint32_t bucket_idx,
-                                                          const K &key, const V &value) -> bool {
+auto DiskExtendibleHashTable<K, V, KC>::InsertToNewBucket(
+    ExtendibleHTableDirectoryPage *directory, uint32_t bucket_idx, const K &key,
+    const V &value) -> bool {
   return false;
 }
 
 template <typename K, typename V, typename KC>
-void DiskExtendibleHashTable<K, V, KC>::UpdateDirectoryMapping(ExtendibleHTableDirectoryPage *directory,
-                                                               uint32_t new_bucket_idx, page_id_t new_bucket_page_id,
-                                                               uint32_t new_local_depth, uint32_t local_depth_mask) {
+void DiskExtendibleHashTable<K, V, KC>::UpdateDirectoryMapping(
+    ExtendibleHTableDirectoryPage *directory, uint32_t new_bucket_idx,
+    page_id_t new_bucket_page_id, uint32_t new_local_depth,
+    uint32_t local_depth_mask) {
   throw NotImplementedException("DiskExtendibleHashTable is not implemented");
 }
 
@@ -85,14 +90,21 @@ void DiskExtendibleHashTable<K, V, KC>::UpdateDirectoryMapping(ExtendibleHTableD
  * REMOVE
  *****************************************************************************/
 template <typename K, typename V, typename KC>
-auto DiskExtendibleHashTable<K, V, KC>::Remove(const K &key, Transaction *transaction) -> bool {
+auto DiskExtendibleHashTable<K, V, KC>::Remove(const K &key,
+                                               Transaction *transaction)
+    -> bool {
   return false;
 }
 
 template class DiskExtendibleHashTable<int, int, IntComparator>;
-template class DiskExtendibleHashTable<GenericKey<4>, RID, GenericComparator<4>>;
-template class DiskExtendibleHashTable<GenericKey<8>, RID, GenericComparator<8>>;
-template class DiskExtendibleHashTable<GenericKey<16>, RID, GenericComparator<16>>;
-template class DiskExtendibleHashTable<GenericKey<32>, RID, GenericComparator<32>>;
-template class DiskExtendibleHashTable<GenericKey<64>, RID, GenericComparator<64>>;
-}  // namespace bustub
+template class DiskExtendibleHashTable<GenericKey<4>, RID,
+                                       GenericComparator<4>>;
+template class DiskExtendibleHashTable<GenericKey<8>, RID,
+                                       GenericComparator<8>>;
+template class DiskExtendibleHashTable<GenericKey<16>, RID,
+                                       GenericComparator<16>>;
+template class DiskExtendibleHashTable<GenericKey<32>, RID,
+                                       GenericComparator<32>>;
+template class DiskExtendibleHashTable<GenericKey<64>, RID,
+                                       GenericComparator<64>>;
+} // namespace bustub

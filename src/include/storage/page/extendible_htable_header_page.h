@@ -19,18 +19,19 @@
 
 #pragma once
 
-#include <cstdlib>
 #include "common/config.h"
 #include "common/macros.h"
+#include <cstdlib>
 
 namespace bustub {
 
 static constexpr uint64_t HTABLE_HEADER_PAGE_METADATA_SIZE = sizeof(uint32_t);
 static constexpr uint64_t HTABLE_HEADER_MAX_DEPTH = 9;
-static constexpr uint64_t HTABLE_HEADER_ARRAY_SIZE = 1 << HTABLE_HEADER_MAX_DEPTH;
+static constexpr uint64_t HTABLE_HEADER_ARRAY_SIZE = 1
+                                                     << HTABLE_HEADER_MAX_DEPTH;
 
 class ExtendibleHTableHeaderPage {
- public:
+public:
   // Delete all constructor / destructor to ensure memory safety
   ExtendibleHTableHeaderPage() = delete;
   DISALLOW_COPY_AND_MOVE(ExtendibleHTableHeaderPage);
@@ -67,7 +68,8 @@ class ExtendibleHTableHeaderPage {
   void SetDirectoryPageId(uint32_t directory_idx, page_id_t directory_page_id);
 
   /**
-   * @brief Get the maximum number of directory page ids the header page could handle
+   * @brief Get the maximum number of directory page ids the header page could
+   * handle
    */
   auto MaxSize() const -> uint32_t;
 
@@ -76,7 +78,7 @@ class ExtendibleHTableHeaderPage {
    */
   void PrintHeader() const;
 
- private:
+private:
   page_id_t directory_page_ids_[HTABLE_HEADER_ARRAY_SIZE];
   uint32_t max_depth_;
 };
@@ -84,8 +86,9 @@ class ExtendibleHTableHeaderPage {
 static_assert(sizeof(page_id_t) == 4);
 
 static_assert(sizeof(ExtendibleHTableHeaderPage) ==
-              sizeof(page_id_t) * HTABLE_HEADER_ARRAY_SIZE + HTABLE_HEADER_PAGE_METADATA_SIZE);
+              sizeof(page_id_t) * HTABLE_HEADER_ARRAY_SIZE +
+                  HTABLE_HEADER_PAGE_METADATA_SIZE);
 
 static_assert(sizeof(ExtendibleHTableHeaderPage) <= BUSTUB_PAGE_SIZE);
 
-}  // namespace bustub
+} // namespace bustub

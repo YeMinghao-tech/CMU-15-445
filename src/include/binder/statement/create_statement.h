@@ -15,13 +15,14 @@
 
 namespace duckdb_libpgquery {
 struct PGCreateStmt;
-}  // namespace duckdb_libpgquery
+} // namespace duckdb_libpgquery
 
 namespace bustub {
 
 class CreateStatement : public BoundStatement {
- public:
-  explicit CreateStatement(std::string table, std::vector<Column> columns, std::vector<std::string> primary_key);
+public:
+  explicit CreateStatement(std::string table, std::vector<Column> columns,
+                           std::vector<std::string> primary_key);
 
   std::string table_;
   std::vector<Column> columns_;
@@ -30,4 +31,4 @@ class CreateStatement : public BoundStatement {
   auto ToString() const -> std::string override;
 };
 
-}  // namespace bustub
+} // namespace bustub

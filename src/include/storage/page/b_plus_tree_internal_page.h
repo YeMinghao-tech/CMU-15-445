@@ -17,13 +17,15 @@
 
 namespace bustub {
 
-#define B_PLUS_TREE_INTERNAL_PAGE_TYPE BPlusTreeInternalPage<KeyType, ValueType, KeyComparator>
+#define B_PLUS_TREE_INTERNAL_PAGE_TYPE                                         \
+  BPlusTreeInternalPage<KeyType, ValueType, KeyComparator>
 #define INTERNAL_PAGE_HEADER_SIZE 12
-#define INTERNAL_PAGE_SIZE ((BUSTUB_PAGE_SIZE - INTERNAL_PAGE_HEADER_SIZE) / (sizeof(MappingType)))
+#define INTERNAL_PAGE_SIZE                                                     \
+  ((BUSTUB_PAGE_SIZE - INTERNAL_PAGE_HEADER_SIZE) / (sizeof(MappingType)))
 
 /**
- * Store `n` indexed keys and `n + 1` child pointers (page_id) within internal page.
- * Pointer PAGE_ID(i) points to a subtree in which all keys K satisfy:
+ * Store `n` indexed keys and `n + 1` child pointers (page_id) within internal
+ * page. Pointer PAGE_ID(i) points to a subtree in which all keys K satisfy:
  * K(i) <= K < K(i+1).
  * NOTE: Since the number of keys does not equal to number of child pointers,
  * the first key always remains invalid. That is to say, any search / lookup
@@ -31,19 +33,21 @@ namespace bustub {
  *
  * Internal page format (keys are stored in increasing order):
  * ----------------------------------------------------------------------------------
- * | HEADER | KEY(1) + PAGE_ID(1) | KEY(2) + PAGE_ID(2) | ... | KEY(n) + PAGE_ID(n) |
+ * | HEADER | KEY(1) + PAGE_ID(1) | KEY(2) + PAGE_ID(2) | ... | KEY(n) +
+ * PAGE_ID(n) |
  * ----------------------------------------------------------------------------------
  */
 INDEX_TEMPLATE_ARGUMENTS
 class BPlusTreeInternalPage : public BPlusTreePage {
- public:
+public:
   // Delete all constructor / destructor to ensure memory safety
   BPlusTreeInternalPage() = delete;
   BPlusTreeInternalPage(const BPlusTreeInternalPage &other) = delete;
 
   /**
-   * Writes the necessary header information to a newly created page, must be called after
-   * the creation of a new page to make a valid `BPlusTreeInternalPage`
+   * Writes the necessary header information to a newly created page, must be
+   * called after the creation of a new page to make a valid
+   * `BPlusTreeInternalPage`
    * @param max_size Maximal size of the page
    */
   void Init(int max_size = INTERNAL_PAGE_SIZE);
@@ -98,9 +102,9 @@ class BPlusTreeInternalPage : public BPlusTreePage {
     return kstr;
   }
 
- private:
+private:
   // Flexible array member for page data.
   MappingType array_[0];
 };
 
-}  // namespace bustub
+} // namespace bustub

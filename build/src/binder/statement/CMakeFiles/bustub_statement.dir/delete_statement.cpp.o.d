@@ -243,10 +243,10 @@ src/binder/statement/CMakeFiles/bustub_statement.dir/delete_statement.cpp.o: \
   /home/ymh/CMU-15-445/src/include/type/type.h \
   /home/ymh/CMU-15-445/src/include/type/type_id.h \
   /home/ymh/CMU-15-445/src/include/binder/table_ref/bound_base_table_ref.h \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/optional \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/enable_special_members.h \
   /home/ymh/CMU-15-445/src/include/binder/bound_table_ref.h \
   /home/ymh/CMU-15-445/src/include/catalog/schema.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/optional \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/enable_special_members.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/vector \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_vector.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/stl_bvector.h \

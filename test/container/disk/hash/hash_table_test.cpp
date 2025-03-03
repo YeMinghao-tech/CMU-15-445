@@ -27,7 +27,8 @@
 // TEST(HashTableTest, DISABLED_SampleTest) {
 //   auto *disk_manager = new DiskManager("test.db");
 //   auto *bpm = new BufferPoolManager(50, disk_manager);
-//   DiskExtendibleHashTable<int, int, IntComparator> ht("blah", bpm, IntComparator(), HashFunction<int>());
+//   DiskExtendibleHashTable<int, int, IntComparator> ht("blah", bpm,
+//   IntComparator(), HashFunction<int>());
 
 //   // insert a few values
 //   for (int i = 0; i < 5; i++) {

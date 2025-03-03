@@ -50,7 +50,7 @@ class ExplainStatement;
 class TransactionStatement;
 
 class ResultWriter {
- public:
+public:
   ResultWriter() = default;
   virtual ~ResultWriter() = default;
 
@@ -74,7 +74,7 @@ class ResultWriter {
 };
 
 class NoopWriter : public ResultWriter {
- public:
+public:
   NoopWriter() = default;
   void WriteCell(const std::string &cell) override {}
   void WriteHeaderCell(const std::string &cell) override {}
@@ -87,12 +87,20 @@ class NoopWriter : public ResultWriter {
 };
 
 class SimpleStreamWriter : public ResultWriter {
- public:
-  explicit SimpleStreamWriter(std::ostream &stream, bool disable_header = false, const char *separator = "\t")
-      : disable_header_(disable_header), stream_(stream), separator_(separator) {}
-  static auto BoldOn(std::ostream &os) -> std::ostream & { return os << "\e[1m"; }
-  static auto BoldOff(std::ostream &os) -> std::ostream & { return os << "\e[0m"; }
-  void WriteCell(const std::string &cell) override { stream_ << cell << separator_; }
+public:
+  explicit SimpleStreamWriter(std::ostream &stream, bool disable_header = false,
+                              const char *separator = "\t")
+      : disable_header_(disable_header), stream_(stream),
+        separator_(separator) {}
+  static auto BoldOn(std::ostream &os) -> std::ostream & {
+    return os << "\e[1m";
+  }
+  static auto BoldOff(std::ostream &os) -> std::ostream & {
+    return os << "\e[0m";
+  }
+  void WriteCell(const std::string &cell) override {
+    stream_ << cell << separator_;
+  }
   void WriteHeaderCell(const std::string &cell) override {
     if (!disable_header_) {
       stream_ << BoldOn << cell << BoldOff << separator_;
@@ -115,8 +123,10 @@ class SimpleStreamWriter : public ResultWriter {
 };
 
 class StringVectorWriter : public ResultWriter {
- public:
-  void WriteCell(const std::string &cell) override { values_.back().push_back(cell); }
+public:
+  void WriteCell(const std::string &cell) override {
+    values_.back().push_back(cell);
+  }
   void WriteHeaderCell(const std::string &cell) override {}
   void BeginHeader() override {}
   void EndHeader() override {}
@@ -134,30 +144,30 @@ class HtmlWriter : public ResultWriter {
     buffer.reserve(data.size());
     for (const char &ch : data) {
       switch (ch) {
-        case '&':
-          buffer.append("&amp;");
-          break;
-        case '\"':
-          buffer.append("&quot;");
-          break;
-        case '\'':
-          buffer.append("&apos;");
-          break;
-        case '<':
-          buffer.append("&lt;");
-          break;
-        case '>':
-          buffer.append("&gt;");
-          break;
-        default:
-          buffer.push_back(ch);
-          break;
+      case '&':
+        buffer.append("&amp;");
+        break;
+      case '\"':
+        buffer.append("&quot;");
+        break;
+      case '\'':
+        buffer.append("&apos;");
+        break;
+      case '<':
+        buffer.append("&lt;");
+        break;
+      case '>':
+        buffer.append("&gt;");
+        break;
+      default:
+        buffer.push_back(ch);
+        break;
       }
     }
     return buffer;
   }
 
- public:
+public:
   void WriteCell(const std::string &cell) override {
     std::cout << cell;
     if (!simplified_output_) {
@@ -212,7 +222,7 @@ class HtmlWriter : public ResultWriter {
 };
 
 class FortTableWriter : public ResultWriter {
- public:
+public:
   void WriteCell(const std::string &cell) override { table_ << cell; }
   void WriteHeaderCell(const std::string &cell) override { table_ << cell; }
   void BeginHeader() override { table_ << fort::header; }
@@ -228,20 +238,24 @@ class FortTableWriter : public ResultWriter {
     tables_.emplace_back(table_.to_string());
     table_ = fort::utf8_table{};
   }
-  void OneCell(const std::string &cell) override { tables_.emplace_back(cell + "\n"); }
+  void OneCell(const std::string &cell) override {
+    tables_.emplace_back(cell + "\n");
+  }
   fort::utf8_table table_;
   std::vector<std::string> tables_;
 };
 
 class BustubInstance {
- private:
+private:
   /**
    * Get the executor context from the BusTub instance.
    */
-  auto MakeExecutorContext(Transaction *txn, bool is_modify) -> std::unique_ptr<ExecutorContext>;
+  auto MakeExecutorContext(Transaction *txn, bool is_modify)
+      -> std::unique_ptr<ExecutorContext>;
 
- public:
-  explicit BustubInstance(const std::string &db_file_name, size_t bpm_size = 128);
+public:
+  explicit BustubInstance(const std::string &db_file_name,
+                          size_t bpm_size = 128);
 
   explicit BustubInstance(size_t bpm_size = 128);
 
@@ -250,16 +264,20 @@ class BustubInstance {
   /**
    * Execute a SQL query in the BusTub instance.
    */
-  auto ExecuteSql(const std::string &sql, ResultWriter &writer, std::shared_ptr<CheckOptions> check_options = nullptr)
+  auto ExecuteSql(const std::string &sql, ResultWriter &writer,
+                  std::shared_ptr<CheckOptions> check_options = nullptr)
       -> bool;
 
   /**
    * Execute a SQL query in the BusTub instance with provided txn.
    */
-  auto ExecuteSqlTxn(const std::string &sql, ResultWriter &writer, Transaction *txn,
-                     std::shared_ptr<CheckOptions> check_options = nullptr) -> bool;
+  auto ExecuteSqlTxn(const std::string &sql, ResultWriter &writer,
+                     Transaction *txn,
+                     std::shared_ptr<CheckOptions> check_options = nullptr)
+      -> bool;
 
-  /** Enable managed txn mode on this BusTub instance, allowing statements like `BEGIN`. */
+  /** Enable managed txn mode on this BusTub instance, allowing statements like
+   * `BEGIN`. */
   void EnableManagedTxn();
 
   /** Get the current transaction. */
@@ -280,7 +298,8 @@ class BustubInstance {
   void GenerateMockTable();
 
   // Currently the followings are directly referenced by recovery test, so
-  // we cannot do anything on them until someone decides to refactor the recovery test.
+  // we cannot do anything on them until someone decides to refactor the
+  // recovery test.
 
   std::unique_ptr<DiskManager> disk_manager_;
   std::unique_ptr<BufferPoolManager> buffer_pool_manager_;
@@ -302,11 +321,12 @@ class BustubInstance {
   }
 
   auto IsForceStarterRule() -> bool {
-    auto variable = StringUtil::Lower(GetSessionVariable("force_optimizer_starter_rule"));
+    auto variable =
+        StringUtil::Lower(GetSessionVariable("force_optimizer_starter_rule"));
     return variable == "1" || variable == "true" || variable == "yes";
   }
 
- private:
+private:
   void CmdDisplayTables(ResultWriter &writer);
   void CmdDbgMvcc(const std::vector<std::string> &params, ResultWriter &writer);
   void CmdTxn(const std::vector<std::string> &params, ResultWriter &writer);
@@ -314,16 +334,24 @@ class BustubInstance {
   void CmdDisplayHelp(ResultWriter &writer);
   void WriteOneCell(const std::string &cell, ResultWriter &writer);
 
-  void HandleCreateStatement(Transaction *txn, const CreateStatement &stmt, ResultWriter &writer);
-  void HandleIndexStatement(Transaction *txn, const IndexStatement &stmt, ResultWriter &writer);
-  void HandleExplainStatement(Transaction *txn, const ExplainStatement &stmt, ResultWriter &writer);
-  void HandleTxnStatement(Transaction *txn, const TransactionStatement &stmt, ResultWriter &writer);
-  void HandleVariableShowStatement(Transaction *txn, const VariableShowStatement &stmt, ResultWriter &writer);
-  void HandleVariableSetStatement(Transaction *txn, const VariableSetStatement &stmt, ResultWriter &writer);
+  void HandleCreateStatement(Transaction *txn, const CreateStatement &stmt,
+                             ResultWriter &writer);
+  void HandleIndexStatement(Transaction *txn, const IndexStatement &stmt,
+                            ResultWriter &writer);
+  void HandleExplainStatement(Transaction *txn, const ExplainStatement &stmt,
+                              ResultWriter &writer);
+  void HandleTxnStatement(Transaction *txn, const TransactionStatement &stmt,
+                          ResultWriter &writer);
+  void HandleVariableShowStatement(Transaction *txn,
+                                   const VariableShowStatement &stmt,
+                                   ResultWriter &writer);
+  void HandleVariableSetStatement(Transaction *txn,
+                                  const VariableSetStatement &stmt,
+                                  ResultWriter &writer);
 
   std::unordered_map<std::string, std::string> session_variables_;
   Transaction *current_txn_{nullptr};
   bool managed_txn_mode_{false};
 };
 
-}  // namespace bustub
+} // namespace bustub

@@ -112,3 +112,22 @@ gmake: *** [Makefile:127: cmTC_97e2e/fast] Error 2
 
 
 
+Determining if the function dwarf_producer_init_c exists failed with the following output:
+Change Dir: /home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_ea74d/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_ea74d.dir/build.make CMakeFiles/cmTC_ea74d.dir/build
+gmake[1]: Entering directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ea74d.dir/CheckFunctionExists.c.o
+/usr/bin/clang-14  -I/usr/include/libdwarf -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c -fPIE -MD -MT CMakeFiles/cmTC_ea74d.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_ea74d.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_ea74d.dir/CheckFunctionExists.c.o -c /usr/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ea74d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ea74d.dir/link.txt --verbose=1
+/usr/bin/clang-14  -DCHECK_FUNCTION_EXISTS=dwarf_producer_init_c CMakeFiles/cmTC_ea74d.dir/CheckFunctionExists.c.o -o cmTC_ea74d  /usr/lib/x86_64-linux-gnu/libdwarf.so /usr/lib/x86_64-linux-gnu/libelf.so 
+/usr/bin/ld: CMakeFiles/cmTC_ea74d.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x17): undefined reference to `dwarf_producer_init_c'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+gmake[1]: *** [CMakeFiles/cmTC_ea74d.dir/build.make:102: cmTC_ea74d] Error 1
+gmake[1]: Leaving directory '/home/ymh/CMU-15-445/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:127: cmTC_ea74d/fast] Error 2
+
+
+
